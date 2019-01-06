@@ -1,0 +1,123 @@
+#include "pch.h"
+#include <iostream>
+using namespace std;
+class LinkedList;
+class ListNode {
+private:
+	int data;
+	ListNode*next;
+public:
+	ListNode() :data(0), next(0) {};
+	ListNode(int a) :data(a), next(0) {};
+	friend class LinkedList;
+};
+class LinkedList {
+private:
+	ListNode*first;
+public:
+	LinkedList() :first(0) {};
+	void Print_List();
+	void Push_Front(int x);
+	void Push_Back(int x);
+	void Delete(int x);
+	void Reverse();
+};
+void LinkedList::Print_List() {
+	
+	if (first == 0) {
+		cout << "This List is empty" << endl;
+		return;
+	}
+	ListNode*current = first;
+	while (current != 0)
+	{
+		cout << current->data << "";
+		current = current->next;
+	}
+	cout << endl;
+	
+}
+void LinkedList::Push_Front(int x) {
+	ListNode*newNode = new ListNode(x);
+	newNode->next = first;
+	first = newNode;
+
+}
+void LinkedList::Push_Back(int x) {
+	ListNode*newNode = new ListNode(x);
+	if (first == 0) {
+		first = newNode;
+		return;
+	}
+	ListNode*current = first;
+	while (current->next != 0)
+	{
+		current=current->next;
+	}
+	current->next = newNode;
+}
+
+void LinkedList::Delete(int x) {
+	ListNode*current = first,
+		    *previous = 0;
+	while (current != 0 && current->data != x)
+	{
+		previous = current;
+		current = current->next;
+		
+	}
+	if (current == 0) {
+		cout << "This List is no " << x << "in here" << endl;
+	}
+	else if (current == first) {
+		first = current->next;
+		delete current;
+		current = 0;
+	}
+	else
+	{
+		previous->next = current->next;
+		delete current;
+		current = 0;
+	}
+
+		
+	
+}
+void LinkedList::Reverse() {
+	if (first == 0 && first->next == 0)
+	{
+		cout << "This list is empty or only one node" << endl;
+		return;
+	}
+	ListNode*current = first,
+		*previous = 0,
+		*preceding = first->next;
+	while (preceding != 0) {
+		current->next = previous;
+		previous = current;
+		current = preceding;
+		preceding = preceding->next;
+
+	}
+	current->next = previous;
+	first = current;
+}
+int main()
+{
+	LinkedList q;
+	q.Print_List();
+	q.Push_Back(4);
+	q.Push_Back(5);
+	q.Print_List();
+	q.Push_Front(3);
+	q.Print_List();
+	q.Delete(2);
+	q.Delete(4);
+	q.Print_List();
+	q.Reverse();
+	q.Print_List();
+	system("pause");
+	return 0;
+
+}
